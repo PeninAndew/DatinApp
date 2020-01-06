@@ -27,7 +27,7 @@ namespace DatingApp.API.Controllers
 
         [HttpPost("register")]
         public async Task<IActionResult> Register(UserForRegisterDTO userForRegister)
-        {
+        {            
             userForRegister.Username = userForRegister.Username.ToLower();
             if (await this.repository.UserExists(userForRegister.Username))
             {
@@ -46,11 +46,11 @@ namespace DatingApp.API.Controllers
 
         [HttpPost("login")]
         public async Task<IActionResult> Login(UserForLoginDTO userForLoginDTO)
-        {
+        { 
             var userFromRepo = await this.repository.Login(userForLoginDTO.Username.ToLower(), userForLoginDTO.Password);
             if (userFromRepo == null)
             {
-                Unauthorized();
+               return Unauthorized();
             }
 
             var claims = new[]
@@ -77,7 +77,7 @@ namespace DatingApp.API.Controllers
 
             return Ok(new {
                 token = tokenHandler.WriteToken(token)
-            });
-                  }
+            });                  
+            }
     }
 }
